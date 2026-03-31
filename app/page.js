@@ -26,12 +26,16 @@ import {
   Shield,
   Leaf,
   Clock,
-  Globe
+  Globe,
+  Users,
+  Smartphone,
+  FileCheck,
+  LayoutGrid
 } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '+4531862094';
 
-export default function CphCleanPage() {
+export default function SixStarPage() {
   const [lang, setLang] = useState('en');
   const [sqm, setSqm] = useState(50);
   const [addons, setAddons] = useState({
@@ -122,7 +126,20 @@ export default function CphCleanPage() {
       icon: Sparkles,
       ...t.services.moveout,
       image: 'https://images.pexels.com/photos/6195129/pexels-photo-6195129.jpeg'
+    },
+    {
+      id: 'staircase',
+      icon: LayoutGrid,
+      ...t.services.staircase,
+      image: 'https://images.pexels.com/photos/6195951/pexels-photo-6195951.jpeg'
     }
+  ];
+
+  const values = [
+    { icon: Users, ...t.values.reliability },
+    { icon: Smartphone, ...t.values.digital },
+    { icon: Leaf, ...t.values.green },
+    { icon: FileCheck, ...t.values.compliant }
   ];
 
   return (
@@ -131,10 +148,13 @@ export default function CphCleanPage() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
+              <Star className="w-5 h-5 text-white fill-white" />
             </div>
-            <span className="text-xl font-bold text-[#0F172A]">CphClean</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-[#0F172A]">6star</span>
+              <span className="text-[10px] text-gray-500 -mt-1">Rengøring</span>
+            </div>
           </div>
           
           <div className="hidden md:flex items-center gap-8">
@@ -210,6 +230,7 @@ export default function CphCleanPage() {
                           <SelectItem value="office">{lang === 'en' ? 'Office Cleaning' : 'Kontorrengøring'}</SelectItem>
                           <SelectItem value="airbnb">{lang === 'en' ? 'Airbnb & Turnover' : 'Airbnb & Skifterengøring'}</SelectItem>
                           <SelectItem value="moveout">{lang === 'en' ? 'Move-out Cleaning' : 'Flytterengøring'}</SelectItem>
+                          <SelectItem value="staircase">{lang === 'en' ? 'Staircase Cleaning' : 'Trapperengøring'}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -281,7 +302,7 @@ export default function CphCleanPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#10B981]/10 rounded-full text-[#10B981] text-sm font-medium">
-                <Star className="w-4 h-4 fill-[#10B981]" />
+                <Leaf className="w-4 h-4" />
                 {t.hero.trustBadge}
               </div>
               
@@ -316,15 +337,15 @@ export default function CphCleanPage() {
               <div className="flex items-center gap-8 pt-4">
                 <div className="flex items-center gap-2">
                   <Shield className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Insured & Bonded</span>
+                  <span className="text-sm text-gray-600">Insured</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Leaf className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Eco-Friendly</span>
+                  <span className="text-sm text-gray-600">Svanemærket</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Same-Day Service</span>
+                  <span className="text-sm text-gray-600">Same-Day</span>
                 </div>
               </div>
             </div>
@@ -340,12 +361,12 @@ export default function CphCleanPage() {
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center">
-                    <Check className="w-6 h-6 text-[#10B981]" />
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
+                    <Star className="w-6 h-6 text-white fill-white" />
                   </div>
                   <div>
-                    <p className="font-semibold text-[#0F172A]">500+</p>
-                    <p className="text-sm text-gray-500">Happy Clients</p>
+                    <p className="font-semibold text-[#0F172A]">6 Owners</p>
+                    <p className="text-sm text-gray-500">Personally Invested</p>
                   </div>
                 </div>
               </div>
@@ -369,6 +390,27 @@ export default function CphCleanPage() {
         </div>
       </section>
 
+      {/* Values Section - The 6star Promise */}
+      <section id="about" className="py-20 px-4 bg-[#0F172A]">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">{t.values.title}</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="text-center">
+                <div className="w-16 h-16 rounded-full bg-[#10B981]/20 flex items-center justify-center mx-auto mb-4">
+                  <value.icon className="w-8 h-8 text-[#10B981]" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
+                <p className="text-gray-400">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section id="services" className="py-20 px-4">
         <div className="container mx-auto">
@@ -377,38 +419,38 @@ export default function CphCleanPage() {
             <p className="text-xl text-gray-600">{t.services.subtitle}</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service) => (
               <Card key={service.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
                   <img 
                     src={service.image} 
                     alt={service.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <div className="w-12 h-12 rounded-full bg-[#10B981] flex items-center justify-center">
-                      <service.icon className="w-6 h-6 text-white" />
+                  <div className="absolute bottom-3 left-3">
+                    <div className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center">
+                      <service.icon className="w-5 h-5 text-white" />
                     </div>
                   </div>
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-xl text-[#0F172A]">{service.title}</CardTitle>
-                  <CardDescription className="text-gray-600">{service.description}</CardDescription>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg text-[#0F172A]">{service.title}</CardTitle>
+                  <CardDescription className="text-gray-600 text-sm">{service.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2">
+                  <ul className="space-y-1">
                     {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                        <Check className="w-4 h-4 text-[#10B981]" />
+                      <li key={i} className="flex items-center gap-2 text-xs text-gray-600">
+                        <Check className="w-3 h-3 text-[#10B981]" />
                         {feature}
                       </li>
                     ))}
                   </ul>
                   <Button 
                     variant="outline" 
-                    className="w-full mt-6 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
+                    className="w-full mt-4 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-sm"
                     onClick={() => {
                       setBookingForm({...bookingForm, service: service.id});
                       setBookingOpen(true);
@@ -557,19 +599,19 @@ export default function CphCleanPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-[#0F172A]">
+      <section className="py-20 px-4 bg-gradient-to-br from-[#10B981] to-[#059669]">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             {lang === 'en' ? 'Ready for a Spotless Space?' : 'Klar til et pletfrit rum?'}
           </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             {lang === 'en' 
-              ? 'Book your cleaning today and experience the CphClean difference.' 
-              : 'Book din rengøring i dag og oplev CphClean-forskellen.'}
+              ? 'Book your cleaning today and experience the 6star difference. 6 owners personally invested in every job.' 
+              : 'Book din rengøring i dag og oplev 6star-forskellen. 6 ejere personligt investeret i hvert job.'}
           </p>
           <Button 
             size="lg" 
-            className="bg-[#10B981] hover:bg-[#059669] text-white px-12 py-6 text-lg"
+            className="bg-white text-[#10B981] hover:bg-gray-100 px-12 py-6 text-lg font-bold"
             onClick={() => setBookingOpen(true)}
           >
             {t.nav.bookOnline}
@@ -578,31 +620,36 @@ export default function CphCleanPage() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="py-16 px-4 bg-white border-t border-gray-100">
+      <footer id="contact" className="py-16 px-4 bg-[#0F172A]">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-4 gap-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
+                  <Star className="w-5 h-5 text-white fill-white" />
                 </div>
-                <span className="text-xl font-bold text-[#0F172A]">CphClean</span>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-white">6star</span>
+                  <span className="text-[10px] text-gray-400 -mt-1">Rengøring og Services ApS</span>
+                </div>
               </div>
-              <p className="text-gray-600">{t.footer.tagline}</p>
+              <p className="text-gray-400">{t.footer.tagline}</p>
+              <p className="text-gray-500 text-sm mt-2">{t.footer.cvr}</p>
             </div>
             
             <div>
-              <h4 className="font-bold text-[#0F172A] mb-4">{t.footer.services}</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="font-bold text-white mb-4">{t.footer.services}</h4>
+              <ul className="space-y-2 text-gray-400">
                 <li><a href="#services" className="hover:text-[#10B981] transition">{t.services.office.title}</a></li>
                 <li><a href="#services" className="hover:text-[#10B981] transition">{t.services.airbnb.title}</a></li>
                 <li><a href="#services" className="hover:text-[#10B981] transition">{t.services.moveout.title}</a></li>
+                <li><a href="#services" className="hover:text-[#10B981] transition">{t.services.staircase.title}</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-bold text-[#0F172A] mb-4">{t.footer.company}</h4>
-              <ul className="space-y-2 text-gray-600">
+              <h4 className="font-bold text-white mb-4">{t.footer.company}</h4>
+              <ul className="space-y-2 text-gray-400">
                 <li><a href="#about" className="hover:text-[#10B981] transition">{t.footer.about}</a></li>
                 <li><a href="#" className="hover:text-[#10B981] transition">{t.footer.careers}</a></li>
                 <li><a href="#" className="hover:text-[#10B981] transition">{t.footer.blog}</a></li>
@@ -610,15 +657,15 @@ export default function CphCleanPage() {
             </div>
             
             <div>
-              <h4 className="font-bold text-[#0F172A] mb-4">{t.footer.contact}</h4>
-              <ul className="space-y-3 text-gray-600">
+              <h4 className="font-bold text-white mb-4">{t.footer.contact}</h4>
+              <ul className="space-y-3 text-gray-400">
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-[#10B981]" />
                   +45 31 86 20 94
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-[#10B981]" />
-                  hello@cphclean.dk
+                  hello@6star.dk
                 </li>
                 <li className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#10B981]" />
@@ -628,8 +675,8 @@ export default function CphCleanPage() {
             </div>
           </div>
           
-          <div className="border-t border-gray-100 mt-12 pt-8 text-center text-gray-500">
-            <p>© {new Date().getFullYear()} CphClean. {t.footer.rights}.</p>
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+            <p>© {new Date().getFullYear()} 6star Rengøring og Services ApS. {t.footer.rights}.</p>
           </div>
         </div>
       </footer>

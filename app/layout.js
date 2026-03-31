@@ -4,15 +4,16 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'CphClean | Premium Cleaning Services in Copenhagen',
-  description: 'Professional office cleaning, Airbnb turnover, and move-out cleaning services in Copenhagen. Eco-friendly, reliable, and trusted by 500+ businesses.',
-  keywords: 'Office cleaning Copenhagen, Flytterengøring København, Airbnb cleaning Copenhagen, professional cleaning service, kontorrengøring København',
+  title: '6star Rengøring | Premium Cleaning Services Copenhagen | Kontorrengøring København',
+  description: 'Professional office cleaning, Airbnb turnover, move-out cleaning (flytterengøring) in Copenhagen. Eco-certified Svanemærket products. 6 dedicated owners. Book online today!',
+  keywords: 'Office cleaning Copenhagen, Kontorrengøring København, Flytterengøring København, Airbnb cleaning Copenhagen, professional cleaning service, rengøring København, 6star, trapperengøring, vinduespolering',
   openGraph: {
-    title: 'CphClean | Premium Cleaning Services in Copenhagen',
-    description: 'Professional office cleaning, Airbnb turnover, and move-out cleaning services in Copenhagen.',
+    title: '6star Rengøring | Premium Cleaning Services Copenhagen',
+    description: 'Professional office cleaning, Airbnb turnover, and move-out cleaning services in Copenhagen. Eco-certified, reliable, 6 owners personally invested.',
     type: 'website',
     locale: 'en_DK',
     alternateLocale: 'da_DK',
+    siteName: '6star Rengøring og Services ApS'
   },
 };
 
