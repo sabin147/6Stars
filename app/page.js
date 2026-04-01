@@ -147,30 +147,35 @@ export default function SixStarPage() {
   const services = [
     {
       id: 'office',
+      slug: 'office-cleaning',
       icon: Building2,
       ...t.services.office,
       image: 'https://images.pexels.com/photos/10567271/pexels-photo-10567271.jpeg'
     },
     {
       id: 'moveout',
+      slug: 'move-out-cleaning',
       icon: Sparkles,
       ...t.services.moveout,
       image: 'https://images.pexels.com/photos/6195129/pexels-photo-6195129.jpeg'
     },
     {
       id: 'airbnb',
+      slug: 'airbnb-turnover',
       icon: Home,
       ...t.services.airbnb,
       image: 'https://images.pexels.com/photos/6197116/pexels-photo-6197116.jpeg'
     },
     {
-      id: 'piccoline',
+      id: 'apartment',
+      slug: 'apartment-cleaning',
       icon: Star,
       ...t.services.piccoline,
       image: 'https://images.pexels.com/photos/7876725/pexels-photo-7876725.jpeg'
     },
     {
       id: 'staircase',
+      slug: 'staircase-cleaning',
       icon: LayoutGrid,
       ...t.services.staircase,
       image: 'https://images.pexels.com/photos/6195951/pexels-photo-6195951.jpeg'
@@ -529,11 +534,8 @@ export default function SixStarPage() {
                     
                     {/* Discover Button */}
                     <div className="pt-4">
-                      <button
-                        onClick={() => {
-                          setBookingForm({...bookingForm, service: service.id});
-                          setBookingOpen(true);
-                        }}
+                      <a
+                        href={`/services/${service.slug}`}
                         className="group/btn inline-flex items-center gap-2 text-base font-semibold text-[#10B981] transition-all duration-300 hover:gap-3"
                       >
                         <span className="relative">
@@ -541,7 +543,7 @@ export default function SixStarPage() {
                           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#10B981] transition-all duration-300 group-hover/btn:w-full"></span>
                         </span>
                         <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
