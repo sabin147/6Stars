@@ -30,7 +30,11 @@ import {
   Users,
   Smartphone,
   FileCheck,
-  LayoutGrid
+  LayoutGrid,
+  Award,
+  Target,
+  Heart,
+  Zap
 } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '+4531862094';
@@ -136,10 +140,12 @@ export default function SixStarPage() {
   ];
 
   const values = [
-    { icon: Users, ...t.values.reliability },
-    { icon: Smartphone, ...t.values.digital },
-    { icon: Leaf, ...t.values.green },
-    { icon: FileCheck, ...t.values.compliant }
+    { icon: Clock, ...t.values.showup },
+    { icon: Award, ...t.values.quality },
+    { icon: Shield, ...t.values.transparent },
+    { icon: Users, ...t.values.professional },
+    { icon: Zap, ...t.values.flexible },
+    { icon: Heart, ...t.values.care }
   ];
 
   return (
@@ -397,7 +403,7 @@ export default function SixStarPage() {
             <h2 className="text-4xl font-bold text-white mb-4">{t.values.title}</h2>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 rounded-full bg-[#10B981]/20 flex items-center justify-center mx-auto mb-4">
