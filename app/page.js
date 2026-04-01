@@ -112,34 +112,34 @@ export default function SixStarPage() {
     }
   };
 
-  // Intersection Observer for smooth scroll animations with stagger
+  // Global Intersection Observer for smooth scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const card = entry.target;
-            const index = parseInt(card.getAttribute('data-index') || '0');
+            const element = entry.target;
+            const delay = parseInt(element.getAttribute('data-delay') || '0');
             
-            // Stagger the animation based on index
+            // Apply animation after delay
             setTimeout(() => {
-              card.classList.add('animate-in');
-            }, index * 150); // 150ms delay between each card
+              element.classList.add('animate-in');
+            }, delay);
             
-            // Unobserve after animation to prevent re-triggering
-            observer.unobserve(card);
+            // Unobserve after animation
+            observer.unobserve(element);
           }
         });
       },
       {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -80px 0px'
       }
     );
 
-    // Observe all service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach((card) => observer.observe(card));
+    // Observe all elements with scroll-reveal class
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    revealElements.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
   }, []);
@@ -435,11 +435,11 @@ export default function SixStarPage() {
 
       {/* Trust Strip */}
       <section className="py-12 bg-white border-y border-gray-100">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 scroll-reveal" data-delay="0">
           <p className="text-center text-gray-500 mb-6">{t.trust.title}</p>
           <div className="flex flex-wrap justify-center gap-8">
-            {t.trust.areas.map((area) => (
-              <div key={area} className="flex items-center gap-2 text-[#0F172A] font-medium">
+            {t.trust.areas.map((area, index) => (
+              <div key={area} className="flex items-center gap-2 text-[#0F172A] font-medium scroll-reveal" data-delay={index * 50}>
                 <MapPin className="w-4 h-4 text-[#10B981]" />
                 {area}
               </div>
@@ -451,14 +451,14 @@ export default function SixStarPage() {
       {/* Values Section - The 6star Promise */}
       <section id="about" className="py-20 px-4 bg-[#0F172A]">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl font-bold text-white mb-4">{t.values.title}</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 rounded-full bg-[#10B981]/20 flex items-center justify-center mx-auto mb-4">
+              <div key={index} className="text-center scroll-reveal" data-delay={index * 100}>
+                <div className="w-16 h-16 rounded-full bg-[#10B981]/20 flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-110">
                   <value.icon className="w-8 h-8 text-[#10B981]" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
@@ -473,7 +473,7 @@ export default function SixStarPage() {
       <section id="services" className="py-24 px-4 bg-[#FAFBFC]">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4">{t.services.title}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t.services.subtitle}</p>
           </div>
@@ -483,8 +483,8 @@ export default function SixStarPage() {
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="service-card group"
-                data-index={index}
+                className="scroll-reveal group"
+                data-delay={index * 100}
               >
                 <div className="h-full bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
                   {/* Image */}
@@ -554,12 +554,12 @@ export default function SixStarPage() {
       {/* Pricing Calculator */}
       <section id="pricing" className="py-20 px-4 bg-white">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl font-bold text-[#0F172A] mb-4">{t.pricing.title}</h2>
             <p className="text-xl text-gray-600">{t.pricing.subtitle}</p>
           </div>
           
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto scroll-reveal" data-delay="100">
             <Card className="border-0 shadow-xl">
               <CardContent className="p-8">
                 {/* Square meters slider */}
@@ -657,7 +657,7 @@ export default function SixStarPage() {
       {/* How It Works */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl font-bold text-[#0F172A] mb-4">{t.howItWorks.title}</h2>
           </div>
           
@@ -667,9 +667,9 @@ export default function SixStarPage() {
               { step: '02', ...t.howItWorks.step2, icon: Sparkles },
               { step: '03', ...t.howItWorks.step3, icon: Check }
             ].map((item, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center scroll-reveal" data-delay={index * 100}>
                 <div className="relative inline-flex mb-6">
-                  <div className="w-20 h-20 rounded-full bg-[#10B981]/10 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-full bg-[#10B981]/10 flex items-center justify-center transition-transform duration-300 hover:scale-110">
                     <item.icon className="w-10 h-10 text-[#10B981]" />
                   </div>
                   <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#0F172A] text-white text-sm font-bold flex items-center justify-center">
@@ -686,7 +686,7 @@ export default function SixStarPage() {
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-[#10B981] to-[#059669]">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto text-center scroll-reveal" data-delay="0">
           <h2 className="text-4xl font-bold text-white mb-4">
             {lang === 'en' ? 'Ready for a Spotless Space?' : 'Klar til et pletfrit rum?'}
           </h2>
