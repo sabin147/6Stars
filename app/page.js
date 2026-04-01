@@ -112,6 +112,30 @@ export default function SixStarPage() {
     }
   };
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            entry.target.classList.remove('opacity-0', 'translate-y-8');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      }
+    );
+
+    // Observe all service cards
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
   const services = [
     {
       id: 'office',
@@ -130,6 +154,12 @@ export default function SixStarPage() {
       icon: Home,
       ...t.services.airbnb,
       image: 'https://images.pexels.com/photos/6197116/pexels-photo-6197116.jpeg'
+    },
+    {
+      id: 'piccoline',
+      icon: Star,
+      ...t.services.piccoline,
+      image: 'https://images.pexels.com/photos/7876725/pexels-photo-7876725.jpeg'
     },
     {
       id: 'staircase',
@@ -431,55 +461,86 @@ export default function SixStarPage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#0F172A] mb-4">{t.services.title}</h2>
-            <p className="text-xl text-gray-600">{t.services.subtitle}</p>
+      {/* Services Section - Modern Scandinavian Style */}
+      <section id="services" className="py-24 px-4 bg-[#FAFBFC]">
+        <div className="container mx-auto max-w-7xl">
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold text-[#0F172A] mb-6">{t.services.title}</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.services.subtitle}</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service) => (
-              <Card key={service.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="relative h-40 overflow-hidden">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/60 to-transparent" />
-                  <div className="absolute bottom-3 left-3">
-                    <div className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center">
-                      <service.icon className="w-5 h-5 text-white" />
+          {/* Service Cards with Alternating Layout */}
+          <div className="space-y-32">
+            {services.map((service, index) => (
+              <div
+                key={service.id}
+                className="service-card opacity-0 translate-y-8"
+                data-index={index}
+              >
+                <div className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
+                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                }`}>
+                  {/* Image - Left on even, Right on odd */}
+                  <div className={`${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
+                    <div className="group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <img 
+                          src={service.image} 
+                          alt={service.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 via-transparent to-transparent" />
+                      
+                      {/* Icon Badge */}
+                      <div className="absolute top-6 left-6">
+                        <div className="w-16 h-16 rounded-2xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                          <service.icon className="w-8 h-8 text-[#10B981]" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Content - Right on even, Left on odd */}
+                  <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+                    <div>
+                      <h3 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4 leading-tight">
+                        {service.title}
+                      </h3>
+                      <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
+                    
+                    {/* Features List */}
+                    <div className="space-y-3">
+                      {service.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className="w-6 h-6 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0">
+                            <Check className="w-4 h-4 text-[#10B981]" />
+                          </div>
+                          <span className="text-gray-700">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Discover Button */}
+                    <div className="pt-4">
+                      <button
+                        onClick={() => {
+                          setBookingForm({...bookingForm, service: service.id});
+                          setBookingOpen(true);
+                        }}
+                        className="group inline-flex items-center gap-2 text-lg font-semibold text-[#10B981] hover:gap-4 transition-all duration-300"
+                      >
+                        Discover
+                        <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                      </button>
                     </div>
                   </div>
                 </div>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-[#0F172A]">{service.title}</CardTitle>
-                  <CardDescription className="text-gray-600 text-sm">{service.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-1">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-xs text-gray-600">
-                        <Check className="w-3 h-3 text-[#10B981]" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button 
-                    variant="outline" 
-                    className="w-full mt-4 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-sm"
-                    onClick={() => {
-                      setBookingForm({...bookingForm, service: service.id});
-                      setBookingOpen(true);
-                    }}
-                  >
-                    {t.nav.bookOnline}
-                  </Button>
-                </CardContent>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
