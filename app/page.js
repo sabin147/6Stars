@@ -112,20 +112,28 @@ export default function SixStarPage() {
     }
   };
 
-  // Intersection Observer for scroll animations
+  // Intersection Observer for smooth scroll animations with stagger
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-            entry.target.classList.remove('opacity-0', 'translate-y-8');
+            const card = entry.target;
+            const index = parseInt(card.getAttribute('data-index') || '0');
+            
+            // Stagger the animation based on index
+            setTimeout(() => {
+              card.classList.add('animate-in');
+            }, index * 150); // 150ms delay between each card
+            
+            // Unobserve after animation to prevent re-triggering
+            observer.unobserve(card);
           }
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
       }
     );
 
@@ -471,11 +479,11 @@ export default function SixStarPage() {
           </div>
           
           {/* Service Cards with Alternating Layout */}
-          <div className="space-y-32">
+          <div className="space-y-24 md:space-y-32">
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="service-card opacity-0 translate-y-8"
+                className="service-card"
                 data-index={index}
               >
                 <div className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
@@ -483,18 +491,18 @@ export default function SixStarPage() {
                 }`}>
                   {/* Image - Left on even, Right on odd */}
                   <div className={`${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
-                    <div className="group relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 hover:shadow-3xl hover:-translate-y-2">
-                      <div className="aspect-[4/3] overflow-hidden">
+                    <div className="service-image-wrapper group relative overflow-hidden rounded-3xl shadow-xl transition-all duration-500 ease-out hover:shadow-2xl">
+                      <div className="aspect-[4/3] overflow-hidden bg-gray-100">
                         <img 
                           src={service.image} 
                           alt={service.title}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                       </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/30 via-transparent to-transparent opacity-60" />
                       
                       {/* Icon Badge */}
-                      <div className="absolute top-6 left-6">
+                      <div className="absolute top-6 left-6 transform transition-transform duration-300 group-hover:scale-110">
                         <div className="w-16 h-16 rounded-2xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg">
                           <service.icon className="w-8 h-8 text-[#10B981]" />
                         </div>
@@ -503,24 +511,24 @@ export default function SixStarPage() {
                   </div>
                   
                   {/* Content - Right on even, Left on odd */}
-                  <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div className={`service-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
                     <div>
-                      <h3 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4 leading-tight">
+                      <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F172A] mb-4 leading-tight">
                         {service.title}
                       </h3>
-                      <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                      <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-xl">
                         {service.description}
                       </p>
                     </div>
                     
                     {/* Features List */}
-                    <div className="space-y-3">
+                    <div className="space-y-3 pt-2">
                       {service.features.map((feature, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-6 h-6 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0">
+                        <div key={i} className="flex items-center gap-3 group/feature">
+                          <div className="w-6 h-6 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover/feature:bg-[#10B981]/20">
                             <Check className="w-4 h-4 text-[#10B981]" />
                           </div>
-                          <span className="text-gray-700">{feature}</span>
+                          <span className="text-gray-700 text-sm md:text-base">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -532,10 +540,13 @@ export default function SixStarPage() {
                           setBookingForm({...bookingForm, service: service.id});
                           setBookingOpen(true);
                         }}
-                        className="group inline-flex items-center gap-2 text-lg font-semibold text-[#10B981] hover:gap-4 transition-all duration-300"
+                        className="group/btn inline-flex items-center gap-2 text-base md:text-lg font-semibold text-[#10B981] transition-all duration-300 hover:gap-3"
                       >
-                        Discover
-                        <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                        <span className="relative">
+                          Discover
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#10B981] transition-all duration-300 group-hover/btn:w-full"></span>
+                        </span>
+                        <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" />
                       </button>
                     </div>
                   </div>
