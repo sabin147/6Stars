@@ -469,66 +469,60 @@ export default function SixStarPage() {
         </div>
       </section>
 
-      {/* Services Section - Modern Scandinavian Style */}
+      {/* Services Section - Modern Grid Layout */}
       <section id="services" className="py-24 px-4 bg-[#FAFBFC]">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-bold text-[#0F172A] mb-6">{t.services.title}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.services.subtitle}</p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4">{t.services.title}</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t.services.subtitle}</p>
           </div>
           
-          {/* Service Cards with Alternating Layout */}
-          <div className="space-y-24 md:space-y-32">
+          {/* Service Cards - 2 per row */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="service-card"
+                className="service-card group"
                 data-index={index}
               >
-                <div className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
-                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-                }`}>
-                  {/* Image - Left on even, Right on odd */}
-                  <div className={`${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
-                    <div className="service-image-wrapper group relative overflow-hidden rounded-3xl shadow-xl transition-all duration-500 ease-out hover:shadow-2xl">
-                      <div className="aspect-[4/3] overflow-hidden bg-gray-100">
-                        <img 
-                          src={service.image} 
-                          alt={service.title}
-                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/30 via-transparent to-transparent opacity-60" />
-                      
-                      {/* Icon Badge */}
-                      <div className="absolute top-6 left-6 transform transition-transform duration-300 group-hover:scale-110">
-                        <div className="w-16 h-16 rounded-2xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                          <service.icon className="w-8 h-8 text-[#10B981]" />
-                        </div>
+                <div className="h-full bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                  {/* Image */}
+                  <div className="relative h-64 overflow-hidden">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/50 via-transparent to-transparent" />
+                    
+                    {/* Icon Badge */}
+                    <div className="absolute top-4 left-4">
+                      <div className="w-14 h-14 rounded-xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110">
+                        <service.icon className="w-7 h-7 text-[#10B981]" />
                       </div>
                     </div>
                   </div>
                   
-                  {/* Content - Right on even, Left on odd */}
-                  <div className={`service-content space-y-6 ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+                  {/* Content */}
+                  <div className="p-6 lg:p-8 space-y-4">
                     <div>
-                      <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F172A] mb-4 leading-tight">
+                      <h3 className="text-2xl lg:text-3xl font-bold text-[#0F172A] mb-3 leading-tight">
                         {service.title}
                       </h3>
-                      <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-xl">
+                      <p className="text-gray-600 leading-relaxed">
                         {service.description}
                       </p>
                     </div>
                     
                     {/* Features List */}
-                    <div className="space-y-3 pt-2">
+                    <div className="space-y-2 pt-2">
                       {service.features.map((feature, i) => (
-                        <div key={i} className="flex items-center gap-3 group/feature">
-                          <div className="w-6 h-6 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover/feature:bg-[#10B981]/20">
-                            <Check className="w-4 h-4 text-[#10B981]" />
+                        <div key={i} className="flex items-center gap-2">
+                          <div className="w-5 h-5 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0">
+                            <Check className="w-3 h-3 text-[#10B981]" />
                           </div>
-                          <span className="text-gray-700 text-sm md:text-base">{feature}</span>
+                          <span className="text-sm text-gray-700">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -540,7 +534,7 @@ export default function SixStarPage() {
                           setBookingForm({...bookingForm, service: service.id});
                           setBookingOpen(true);
                         }}
-                        className="group/btn inline-flex items-center gap-2 text-base md:text-lg font-semibold text-[#10B981] transition-all duration-300 hover:gap-3"
+                        className="group/btn inline-flex items-center gap-2 text-base font-semibold text-[#10B981] transition-all duration-300 hover:gap-3"
                       >
                         <span className="relative">
                           Discover
