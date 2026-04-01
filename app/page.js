@@ -30,7 +30,11 @@ import {
   Users,
   Smartphone,
   FileCheck,
-  LayoutGrid
+  LayoutGrid,
+  Award,
+  Target,
+  Heart,
+  Zap
 } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '+4531862094';
@@ -108,6 +112,38 @@ export default function SixStarPage() {
     }
   };
 
+  // Global Intersection Observer for smooth scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const element = entry.target;
+            const delay = parseInt(element.getAttribute('data-delay') || '0');
+            
+            // Apply animation after delay
+            setTimeout(() => {
+              element.classList.add('animate-in');
+            }, delay);
+            
+            // Unobserve after animation
+            observer.unobserve(element);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -80px 0px'
+      }
+    );
+
+    // Observe all elements with scroll-reveal class
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
   const services = [
     {
       id: 'office',
@@ -116,16 +152,22 @@ export default function SixStarPage() {
       image: 'https://images.pexels.com/photos/10567271/pexels-photo-10567271.jpeg'
     },
     {
+      id: 'moveout',
+      icon: Sparkles,
+      ...t.services.moveout,
+      image: 'https://images.pexels.com/photos/6195129/pexels-photo-6195129.jpeg'
+    },
+    {
       id: 'airbnb',
       icon: Home,
       ...t.services.airbnb,
       image: 'https://images.pexels.com/photos/6197116/pexels-photo-6197116.jpeg'
     },
     {
-      id: 'moveout',
-      icon: Sparkles,
-      ...t.services.moveout,
-      image: 'https://images.pexels.com/photos/6195129/pexels-photo-6195129.jpeg'
+      id: 'piccoline',
+      icon: Star,
+      ...t.services.piccoline,
+      image: 'https://images.pexels.com/photos/7876725/pexels-photo-7876725.jpeg'
     },
     {
       id: 'staircase',
@@ -136,10 +178,12 @@ export default function SixStarPage() {
   ];
 
   const values = [
-    { icon: Users, ...t.values.reliability },
-    { icon: Smartphone, ...t.values.digital },
-    { icon: Leaf, ...t.values.green },
-    { icon: FileCheck, ...t.values.compliant }
+    { icon: Clock, ...t.values.showup },
+    { icon: Award, ...t.values.quality },
+    { icon: Shield, ...t.values.transparent },
+    { icon: Users, ...t.values.professional },
+    { icon: Zap, ...t.values.flexible },
+    { icon: Heart, ...t.values.care }
   ];
 
   return (
@@ -295,80 +339,94 @@ export default function SixStarPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/5 to-transparent" />
-        <div className="container mx-auto relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#10B981]/10 rounded-full text-[#10B981] text-sm font-medium">
-                <Leaf className="w-4 h-4" />
-                {t.hero.trustBadge}
+      {/* Hero Section - Fullscreen Video */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+          {/* Fallback image if video doesn't load */}
+          <img 
+            src="https://images.pexels.com/photos/6195951/pexels-photo-6195951.jpeg" 
+            alt="Professional cleaning service"
+            className="w-full h-full object-cover"
+          />
+        </video>
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          {/* Animated Content */}
+          <div className="space-y-8 max-w-4xl mx-auto animate-fade-in">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-medium border border-white/20 transition-all duration-500 hover:bg-white/20">
+              <Leaf className="w-4 h-4" />
+              {t.hero.trustBadge}
+            </div>
+            
+            {/* Main Heading */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
+              {t.hero.title} <span className="text-[#10B981]">{t.hero.titleAccent}</span>
+              <br />
+              <span className="text-3xl md:text-5xl lg:text-6xl">{t.hero.subtitle}</span>
+            </h1>
+            
+            {/* Description */}
+            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+              {t.hero.description}
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <Button 
+                size="lg" 
+                className="bg-white text-[#0F172A] hover:bg-white/90 px-8 py-6 text-lg rounded-full transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                onClick={() => setBookingOpen(true)}
+              >
+                {t.hero.cta}
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-[#0F172A] px-8 py-6 text-lg rounded-full transition-all duration-500 hover:scale-105"
+                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                {t.hero.secondaryCta}
+              </Button>
+            </div>
+            
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-8 pt-8">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <Shield className="w-5 h-5 text-[#10B981]" />
+                <span className="text-sm text-white">Insured</span>
               </div>
-              
-              <h1 className="text-5xl lg:text-6xl font-bold text-[#0F172A] leading-tight">
-                {t.hero.title} <span className="text-[#10B981]">{t.hero.titleAccent}</span>
-                <br />{t.hero.subtitle}
-              </h1>
-              
-              <p className="text-xl text-gray-600 max-w-lg">
-                {t.hero.description}
-              </p>
-              
-              <div className="flex flex-wrap gap-4">
-                <Button 
-                  size="lg" 
-                  className="bg-[#0F172A] hover:bg-[#1E293B] text-white px-8"
-                  onClick={() => setBookingOpen(true)}
-                >
-                  {t.hero.cta}
-                  <ChevronRight className="w-5 h-5 ml-2" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white px-8"
-                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  {t.hero.secondaryCta}
-                </Button>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <Leaf className="w-5 h-5 text-[#10B981]" />
+                <span className="text-sm text-white">Svanemærket</span>
               </div>
-              
-              <div className="flex items-center gap-8 pt-4">
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Insured</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Leaf className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Svanemærket</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Same-Day</span>
-                </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <Clock className="w-5 h-5 text-[#10B981]" />
+                <span className="text-sm text-white">Same-Day</span>
               </div>
             </div>
             
-            <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.pexels.com/photos/6195951/pexels-photo-6195951.jpeg" 
-                  alt="Professional cleaning service"
-                  className="w-full h-[500px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 to-transparent" />
+            {/* 6 Owners Badge */}
+            <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 shadow-2xl mt-8">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
+                <Star className="w-5 h-5 text-white fill-white" />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
-                    <Star className="w-6 h-6 text-white fill-white" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#0F172A]">6 Owners</p>
-                    <p className="text-sm text-gray-500">Personally Invested</p>
-                  </div>
-                </div>
+              <div className="text-left">
+                <p className="font-semibold text-[#0F172A] text-sm">6 Owners</p>
+                <p className="text-xs text-gray-600">Personally Invested</p>
               </div>
             </div>
           </div>
@@ -377,11 +435,11 @@ export default function SixStarPage() {
 
       {/* Trust Strip */}
       <section className="py-12 bg-white border-y border-gray-100">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 scroll-reveal" data-delay="0">
           <p className="text-center text-gray-500 mb-6">{t.trust.title}</p>
           <div className="flex flex-wrap justify-center gap-8">
-            {t.trust.areas.map((area) => (
-              <div key={area} className="flex items-center gap-2 text-[#0F172A] font-medium">
+            {t.trust.areas.map((area, index) => (
+              <div key={area} className="flex items-center gap-2 text-[#0F172A] font-medium scroll-reveal" data-delay={index * 50}>
                 <MapPin className="w-4 h-4 text-[#10B981]" />
                 {area}
               </div>
@@ -393,14 +451,14 @@ export default function SixStarPage() {
       {/* Values Section - The 6star Promise */}
       <section id="about" className="py-20 px-4 bg-[#0F172A]">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl font-bold text-white mb-4">{t.values.title}</h2>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 rounded-full bg-[#10B981]/20 flex items-center justify-center mx-auto mb-4">
+              <div key={index} className="text-center scroll-reveal" data-delay={index * 100}>
+                <div className="w-16 h-16 rounded-full bg-[#10B981]/20 flex items-center justify-center mx-auto mb-4 transition-transform duration-300 hover:scale-110">
                   <value.icon className="w-8 h-8 text-[#10B981]" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
@@ -411,55 +469,83 @@ export default function SixStarPage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#0F172A] mb-4">{t.services.title}</h2>
-            <p className="text-xl text-gray-600">{t.services.subtitle}</p>
+      {/* Services Section - Modern Grid Layout */}
+      <section id="services" className="py-24 px-4 bg-[#FAFBFC]">
+        <div className="container mx-auto max-w-7xl">
+          {/* Section Header */}
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4">{t.services.title}</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t.services.subtitle}</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service) => (
-              <Card key={service.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="relative h-40 overflow-hidden">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/60 to-transparent" />
-                  <div className="absolute bottom-3 left-3">
-                    <div className="w-10 h-10 rounded-full bg-[#10B981] flex items-center justify-center">
-                      <service.icon className="w-5 h-5 text-white" />
+          {/* Service Cards - 2 per row */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            {services.map((service, index) => (
+              <div
+                key={service.id}
+                className="scroll-reveal group"
+                data-delay={index * 100}
+              >
+                <div className="h-full bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                  {/* Image */}
+                  <div className="relative h-64 overflow-hidden">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/50 via-transparent to-transparent" />
+                    
+                    {/* Icon Badge */}
+                    <div className="absolute top-4 left-4">
+                      <div className="w-14 h-14 rounded-xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110">
+                        <service.icon className="w-7 h-7 text-[#10B981]" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-6 lg:p-8 space-y-4">
+                    <div>
+                      <h3 className="text-2xl lg:text-3xl font-bold text-[#0F172A] mb-3 leading-tight">
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
+                    
+                    {/* Features List */}
+                    <div className="space-y-2 pt-2">
+                      {service.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <div className="w-5 h-5 rounded-full bg-[#10B981]/10 flex items-center justify-center flex-shrink-0">
+                            <Check className="w-3 h-3 text-[#10B981]" />
+                          </div>
+                          <span className="text-sm text-gray-700">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Discover Button */}
+                    <div className="pt-4">
+                      <button
+                        onClick={() => {
+                          setBookingForm({...bookingForm, service: service.id});
+                          setBookingOpen(true);
+                        }}
+                        className="group/btn inline-flex items-center gap-2 text-base font-semibold text-[#10B981] transition-all duration-300 hover:gap-3"
+                      >
+                        <span className="relative">
+                          Discover
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#10B981] transition-all duration-300 group-hover/btn:w-full"></span>
+                        </span>
+                        <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </button>
                     </div>
                   </div>
                 </div>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-[#0F172A]">{service.title}</CardTitle>
-                  <CardDescription className="text-gray-600 text-sm">{service.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-1">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-xs text-gray-600">
-                        <Check className="w-3 h-3 text-[#10B981]" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button 
-                    variant="outline" 
-                    className="w-full mt-4 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-sm"
-                    onClick={() => {
-                      setBookingForm({...bookingForm, service: service.id});
-                      setBookingOpen(true);
-                    }}
-                  >
-                    {t.nav.bookOnline}
-                  </Button>
-                </CardContent>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
@@ -468,12 +554,12 @@ export default function SixStarPage() {
       {/* Pricing Calculator */}
       <section id="pricing" className="py-20 px-4 bg-white">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl font-bold text-[#0F172A] mb-4">{t.pricing.title}</h2>
             <p className="text-xl text-gray-600">{t.pricing.subtitle}</p>
           </div>
           
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto scroll-reveal" data-delay="100">
             <Card className="border-0 shadow-xl">
               <CardContent className="p-8">
                 {/* Square meters slider */}
@@ -571,7 +657,7 @@ export default function SixStarPage() {
       {/* How It Works */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 scroll-reveal" data-delay="0">
             <h2 className="text-4xl font-bold text-[#0F172A] mb-4">{t.howItWorks.title}</h2>
           </div>
           
@@ -581,9 +667,9 @@ export default function SixStarPage() {
               { step: '02', ...t.howItWorks.step2, icon: Sparkles },
               { step: '03', ...t.howItWorks.step3, icon: Check }
             ].map((item, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center scroll-reveal" data-delay={index * 100}>
                 <div className="relative inline-flex mb-6">
-                  <div className="w-20 h-20 rounded-full bg-[#10B981]/10 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-full bg-[#10B981]/10 flex items-center justify-center transition-transform duration-300 hover:scale-110">
                     <item.icon className="w-10 h-10 text-[#10B981]" />
                   </div>
                   <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#0F172A] text-white text-sm font-bold flex items-center justify-center">
@@ -600,7 +686,7 @@ export default function SixStarPage() {
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-[#10B981] to-[#059669]">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto text-center scroll-reveal" data-delay="0">
           <h2 className="text-4xl font-bold text-white mb-4">
             {lang === 'en' ? 'Ready for a Spotless Space?' : 'Klar til et pletfrit rum?'}
           </h2>
