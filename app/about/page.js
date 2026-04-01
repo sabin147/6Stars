@@ -324,7 +324,7 @@ export default function AboutPage() {
             <Link href="/#services" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.services}</Link>
             <Link href="/#pricing" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.pricing}</Link>
             <Link href="/about" className="text-[#10B981] font-medium">{t.nav.about}</Link>
-            <Link href="/#contact" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.contact}</Link>
+            <Link href="/contact" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.contact}</Link>
           </div>
 
           <div className="flex items-center gap-4">

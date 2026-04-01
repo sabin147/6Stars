@@ -205,7 +205,7 @@ export default function SixStarPage() {
             <a href="#services" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.services}</a>
             <a href="#pricing" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.pricing}</a>
             <a href="/about" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.about}</a>
-            <a href="#contact" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.contact}</a>
+            <a href="/contact" className="text-gray-600 hover:text-[#0F172A] transition">{t.nav.contact}</a>
           </div>
 
           <div className="flex items-center gap-4">
