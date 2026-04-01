@@ -301,81 +301,102 @@ export default function SixStarPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#10B981]/5 to-transparent" />
-        <div className="container mx-auto relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#10B981]/10 rounded-full text-[#10B981] text-sm font-medium">
-                <Leaf className="w-4 h-4" />
-                {t.hero.trustBadge}
+      {/* Hero Section - Fullscreen Video */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+          {/* Fallback image if video doesn't load */}
+          <img 
+            src="https://images.pexels.com/photos/6195951/pexels-photo-6195951.jpeg" 
+            alt="Professional cleaning service"
+            className="w-full h-full object-cover"
+          />
+        </video>
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          {/* Animated Content */}
+          <div className="space-y-8 max-w-4xl mx-auto animate-fade-in">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-medium border border-white/20 transition-all duration-500 hover:bg-white/20">
+              <Leaf className="w-4 h-4" />
+              {t.hero.trustBadge}
+            </div>
+            
+            {/* Main Heading */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
+              {t.hero.title} <span className="text-[#10B981]">{t.hero.titleAccent}</span>
+              <br />
+              <span className="text-3xl md:text-5xl lg:text-6xl">{t.hero.subtitle}</span>
+            </h1>
+            
+            {/* Description */}
+            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+              {t.hero.description}
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <Button 
+                size="lg" 
+                className="bg-white text-[#0F172A] hover:bg-white/90 px-8 py-6 text-lg rounded-full transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                onClick={() => setBookingOpen(true)}
+              >
+                {t.hero.cta}
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-white text-white hover:bg-white hover:text-[#0F172A] px-8 py-6 text-lg rounded-full transition-all duration-500 hover:scale-105"
+                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                {t.hero.secondaryCta}
+              </Button>
+            </div>
+            
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-8 pt-8">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <Shield className="w-5 h-5 text-[#10B981]" />
+                <span className="text-sm text-white">Insured</span>
               </div>
-              
-              <h1 className="text-5xl lg:text-6xl font-bold text-[#0F172A] leading-tight">
-                {t.hero.title} <span className="text-[#10B981]">{t.hero.titleAccent}</span>
-                <br />{t.hero.subtitle}
-              </h1>
-              
-              <p className="text-xl text-gray-600 max-w-lg">
-                {t.hero.description}
-              </p>
-              
-              <div className="flex flex-wrap gap-4">
-                <Button 
-                  size="lg" 
-                  className="bg-[#0F172A] hover:bg-[#1E293B] text-white px-8"
-                  onClick={() => setBookingOpen(true)}
-                >
-                  {t.hero.cta}
-                  <ChevronRight className="w-5 h-5 ml-2" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white px-8"
-                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  {t.hero.secondaryCta}
-                </Button>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <Leaf className="w-5 h-5 text-[#10B981]" />
+                <span className="text-sm text-white">Svanemærket</span>
               </div>
-              
-              <div className="flex items-center gap-8 pt-4">
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Insured</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Leaf className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Svanemærket</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-[#10B981]" />
-                  <span className="text-sm text-gray-600">Same-Day</span>
-                </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                <Clock className="w-5 h-5 text-[#10B981]" />
+                <span className="text-sm text-white">Same-Day</span>
               </div>
             </div>
             
-            <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.pexels.com/photos/6195951/pexels-photo-6195951.jpeg" 
-                  alt="Professional cleaning service"
-                  className="w-full h-[500px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/40 to-transparent" />
+            {/* 6 Owners Badge */}
+            <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 shadow-2xl mt-8">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
+                <Star className="w-5 h-5 text-white fill-white" />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] flex items-center justify-center">
-                    <Star className="w-6 h-6 text-white fill-white" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#0F172A]">6 Owners</p>
-                    <p className="text-sm text-gray-500">Personally Invested</p>
-                  </div>
-                </div>
+              <div className="text-left">
+                <p className="font-semibold text-[#0F172A] text-sm">6 Owners</p>
+                <p className="text-xs text-gray-600">Personally Invested</p>
               </div>
+            </div>
+          </div>
+          
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
+              <div className="w-1 h-3 bg-white/50 rounded-full"></div>
             </div>
           </div>
         </div>
