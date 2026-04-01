@@ -120,16 +120,16 @@ export default function SixStarPage() {
       image: 'https://images.pexels.com/photos/10567271/pexels-photo-10567271.jpeg'
     },
     {
-      id: 'airbnb',
-      icon: Home,
-      ...t.services.airbnb,
-      image: 'https://images.pexels.com/photos/6197116/pexels-photo-6197116.jpeg'
-    },
-    {
       id: 'moveout',
       icon: Sparkles,
       ...t.services.moveout,
       image: 'https://images.pexels.com/photos/6195129/pexels-photo-6195129.jpeg'
+    },
+    {
+      id: 'airbnb',
+      icon: Home,
+      ...t.services.airbnb,
+      image: 'https://images.pexels.com/photos/6197116/pexels-photo-6197116.jpeg'
     },
     {
       id: 'staircase',
@@ -358,7 +358,7 @@ export default function SixStarPage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-white text-white hover:bg-white hover:text-[#0F172A] px-8 py-6 text-lg rounded-full transition-all duration-500 hover:scale-105"
+                className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-[#0F172A] px-8 py-6 text-lg rounded-full transition-all duration-500 hover:scale-105"
                 onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 {t.hero.secondaryCta}
@@ -390,13 +390,6 @@ export default function SixStarPage() {
                 <p className="font-semibold text-[#0F172A] text-sm">6 Owners</p>
                 <p className="text-xs text-gray-600">Personally Invested</p>
               </div>
-            </div>
-          </div>
-          
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-              <div className="w-1 h-3 bg-white/50 rounded-full"></div>
             </div>
           </div>
         </div>
