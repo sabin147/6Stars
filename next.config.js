@@ -19,6 +19,8 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          // Restrict to specific trusted origins via CORS_ORIGINS env var in production.
+          // Defaults to * only when CORS_ORIGINS is not set (e.g. local dev).
           { key: "Access-Control-Allow-Origin", value: process.env.CORS_ORIGINS || "*" },
           { key: "Access-Control-Allow-Methods", value: "GET, POST, PUT, DELETE, OPTIONS" },
           { key: "Access-Control-Allow-Headers", value: "*" },

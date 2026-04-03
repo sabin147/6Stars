@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
 
-// Lazily initialise Supabase so missing env-vars at cold-start don't crash the module
+// Lazily initialize Supabase so missing env-vars at cold-start don't crash the module
 let _supabase = null;
 function getSupabase() {
   if (_supabase) return _supabase;
