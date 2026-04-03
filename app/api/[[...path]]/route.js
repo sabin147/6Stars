@@ -2,10 +2,16 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Lazily initialise Supabase so missing env-vars at cold-start don't crash the module
+let _supabase = null;
+function getSupabase() {
+  if (_supabase) return _supabase;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  _supabase = createClient(url, key);
+  return _supabase;
+}
 
 // CORS headers
 const corsHeaders = {
@@ -35,6 +41,10 @@ export async function GET(request, { params }) {
     
     // Get all bookings
     if (path === 'bookings') {
+      const supabase = getSupabase();
+      if (!supabase) {
+        return NextResponse.json({ error: 'Database not configured' }, { status: 503, headers: corsHeaders });
+      }
       const { data, error } = await supabase
         .from('bookings')
         .select('*')
@@ -89,6 +99,11 @@ export async function POST(request, { params }) {
         status: 'pending',
         created_at: new Date().toISOString()
       };
+
+      const supabase = getSupabase();
+      if (!supabase) {
+        return NextResponse.json({ error: 'Database not configured' }, { status: 503, headers: corsHeaders });
+      }
       
       const { data, error } = await supabase
         .from('bookings')
@@ -130,6 +145,11 @@ export async function POST(request, { params }) {
         status: 'new',
         created_at: new Date().toISOString()
       };
+
+      const supabase = getSupabase();
+      if (!supabase) {
+        return NextResponse.json({ error: 'Database not configured' }, { status: 503, headers: corsHeaders });
+      }
       
       // Try to save to Supabase contacts table
       const { data, error } = await supabase
@@ -138,8 +158,8 @@ export async function POST(request, { params }) {
         .select();
       
       if (error) {
-        console.error('Supabase error:', error);
-        // If table doesn't exist, return success anyway
+        console.error('Supabase contact error:', error);
+        // If table doesn't exist, acknowledge receipt so the MVP can still function
         if (error.code === '42P01' || error.code === 'PGRST204') {
           return NextResponse.json({ 
             success: true, 
@@ -147,13 +167,7 @@ export async function POST(request, { params }) {
             contact: contact 
           }, { headers: corsHeaders });
         }
-        // Still return success for MVP - log the message
-        console.log('Contact form submission:', contact);
-        return NextResponse.json({ 
-          success: true, 
-          message: 'Message received',
-          contact: contact 
-        }, { headers: corsHeaders });
+        return NextResponse.json({ error: error.message }, { status: 500, headers: corsHeaders });
       }
       
       return NextResponse.json({ 
